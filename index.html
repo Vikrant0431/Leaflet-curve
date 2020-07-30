@@ -1,0 +1,46 @@
+<html>
+<head>
+<meta charset="utf-8">
+<title>Leaflet.curve plugin demo</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.0/dist/leaflet.css" />
+<style>
+#map { height: 500px; }
+</style>
+</head>
+<body>
+<div id="map"></div>
+
+
+<script src="https://unpkg.com/leaflet@1.1.0/dist/leaflet-src.js"></script>
+<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/tween.js/17.2.0/Tween.min.js"></script> -->
+<script src="src/leaflet.curve.js"></script>
+
+<script>
+//set up map
+var map = L.map('map'/*, {preferCanvas: true}*/).setView([46.05, 11.05], 5);
+L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'}).addTo(map);
+
+//quadratic bezier curve
+var pathOne = L.curve(['M',[50.14874640066278,14.106445312500002],
+'C',[50.14874640066278,14.106445312500002],
+						[51.67255514839676,16.303710937500004],
+						   [50.14874640066278,18.676757812500004]]).addTo(map);
+
+function onMapClick(e) {
+    console.log(e.latlng);
+}
+map.on('click', onMapClick);
+
+function traceCurves(){
+	pathOne.trace([0, 0.25, 0.75, 1]).forEach(i => L.circle(i, {color: 'green'}).addTo(map));
+	pathTwo.trace([0, 0.25, 0.75, 1]).forEach(i => L.circle(i, {color: 'green'}).addTo(map));
+	pathThree.trace([0, 0.25, 0.75, 1]).forEach(i => L.circle(i, {color: 'green'}).addTo(map));
+	pathFour.trace([0, 0.25, 0.75, 1]).forEach(i => L.circle(i, {color: 'green'}).addTo(map));
+}
+</script>
+
+<button onclick="pathFive.addTo(map)">Add</button>
+<button onclick="pathFive.remove()">Remove</button>
+<button onclick="traceCurves()">Trace curves</button>
+</body>
+</html>
